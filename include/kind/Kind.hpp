@@ -42,4 +42,22 @@ namespace Kind {
 			return Hash(str, str + len);
 		}
 	}
+
+	namespace impl {
+		static inline HashType NextTypeIndex(){
+			static HashType index = 0;
+			return index++;
+		}
+
+		template<typename T>
+		HashType TypeIndexImpl(){
+			static const HashType index = NextTypeIndex();
+			return index;
+		}
+	}
+
+	template<typename T>
+	HashType TypeIndex(){
+		return impl::TypeIndexImpl<std::decay_t<T>>();
+	}
 }
